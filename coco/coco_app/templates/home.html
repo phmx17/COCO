@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load bootstrap5 %}
+
 
 !doctype html
 <html lang="en">
@@ -8,11 +10,31 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Home</title>
+        {% block title %}<title>{{ title }}</title>{% endblock title %}
 </head>
 <body>
-    {% block body %}
-        <h1>Home</h1>
-    {% endblock body %}
+{% block body %}
+    <div class="container">
+        <div class="w-50 mx-auto">
+            <h1>Home</h1>
+            <form action="time_logger" method="POST">
+            {% csrf_token %}
+                <div class="input-group">
+                    <span class="input-group-text" id="basic-addon1">User</span>
+                    <select name="selected_user" class="form-select" aria-label="Default select example">
+                        {% for user in users %}
+                            <option  value="{{ user }}">{{ user }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary mt-4">Login</button>
+            </form>
+
+        </div>
+
+    </div>
+
+
+{% endblock body %}
 </body>
 </html>

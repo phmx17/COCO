@@ -1,3 +1,5 @@
+{% load static %}
+{% load bootstrap5 %}
 <!doctype html>
 <html lang="en">
 <head>
@@ -5,10 +7,13 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    {% block title %}{% endblock title %}
+    {% bootstrap_css %}
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
 </head>
 <body>
-<h1>Base Template</h1>
+{% bootstrap_javascript %}
+<h1>COCO</h1>
     {% block body %}
     {% endblock body %}
 </body>

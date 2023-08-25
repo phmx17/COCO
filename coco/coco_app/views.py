@@ -1,8 +1,51 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from .models import Time, Project
+from django.contrib.auth.models import User
+import datetime as dt
 
+times_array = [
+    {'date': '23.08.23', 'time': '4:30', 'project': 'Züri Fäscht', 'comments': 'much fun'},
+    {'date': '24.08.23', 'time': '5:30', 'project': 'NKB', 'comments': 'very boring'},
+    {'date': '25.08.23', 'time': '6:30', 'project': 'EHB', 'comments': 'pain in the ass'},
+    {'date': '26.08.23', 'time': '7:30', 'project': 'Veriset', 'comments': 'sucks'},
+]
 # Create your views here.
 
 def home_view(request):
     template = 'home.html'
-    return render(request, template)
+    users = ['Townsend', 'Beth Harmon', 'Benny Fisher', 'Harry Beltik', 'Antonin Borgov']
+    context = {'users': users, 'title': "Home"}
+    return render(request, template, context)
+
+def time_logger(request, time_id):
+    if request.method == 'POST':
+        template = 'time_logger.html'
+        user = request.POST.get('selected_user')
+        projects = ['Air BnB', 'White House.gov', 'Netflix', 'UBS', 'Renault']
+        # current_date = d.now()
+        current_date = "22.08.2023"
+        context = {'user': user, 'projects': projects, 'title': "Time Logger", 'current_date': current_date}
+        return render(request, template, context)
+
+    if request.method == 'GET':
+        template = 'time_logger.html'
+        time = {}
+        date = dt.date.today().strftime('%Y-%m-%d') # today as default
+        if time_id != 0:
+            time = Time.objects.filter(id=time_id)[0]
+            date = time.date.strftime('%Y-%m-%d')  # required to get date input to show
+        projects = Project.objects.all()  # for <select>
+    context = {'template': template, 'time': time, 'date': date, 'projects': projects}
+    return render(request, template, context)
+
+
+
+def time_overview(request):
+    times = Time.objects.filter(developer_id=2)
+    # times = times.values()
+    print("got them times: ", times)
+    template = 'time_overview.html'
+    user = request.POST.get('selected_user')
+    context = {'user': user, 'times': times, 'title': "Time Overview"}
+    return render(request, template, context)
 

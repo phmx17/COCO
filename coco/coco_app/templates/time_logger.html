@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load static  %}
+{% load bootstrap5  %}
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    {% block title %}
+    <title>{{ title }}</title>
+    {% endblock title %}
+</head>
+<body>
+{% block body %}
+        <div class="container">
+        <div class="w-50 mx-auto">
+{#            <h2>Welcome Back {{ user }}</h2>#}
+            <h4>Please track your hours.</h4>
+        {{ time }} <br />
+            <form action="" method="POST">
+            {% csrf_token %}
+                <div class="input-group">
+                    <span class="input-group-text" id="basic-addon1">Project</span>
+                    <select name="project" class="form-select" aria-label="Default select example">
+                        {% for project in projects %}
+                            {% if project.title == time.project.title %}
+                                <option selected value="{{ project }}">{{ project.title }}</option>
+                            {% else %}
+                                <option value="{{ project }}">{{ project.title }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="input-group mt-lg-4">
+                    <span class="input-group-text" id="basic-addon1">Date</span>
+                    <input type="date" name="date" class="form-control" value="{{ date }}">
+                </div>
+                <div class="input-group mt-lg-4">
+                    <span class="input-group-text" id="basic-addon1">Time</span>
+                    {% if time.time is None %}
+                        <input type="text" name="time" class="form-control" placeholder="examples: 5 = 5h | 5.5 = 5h 30m | 5.6 = 5h 45m (rounded up)">
+                    {% else %}
+                        <input type="text" name="time" class="form-control" value="{{ time.time }}">
+                    {% endif %}
+                </div>
+
+                <button type="submit" class="btn btn-primary mt-4">Submit</button>
+            </form>
+
+        </div>
+
+    </div>
+
+{% endblock %}
+
+</body>
+</html>

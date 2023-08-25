@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    {% block title %}
+        <title>{{ title }}</title>
+    {% endblock title %}
+</head>
+<body>
+{% block body %}
+<div class="container">
+    <table class="table table-striped ">
+      <thead>
+        <tr>
+            <th scope="col">Date</th>
+            <th scope="col">Time</th>
+            <th scope="col">Project</th>
+            <th scope="col">Developer</th>
+            <th scope="col">Comments</th>
+{#            {% for key, value in times.0.items %}#}
+{#                <th scope="col">{{ key }}</th>#}
+{#            {% endfor %}#}
+            <td><button class="btn invisible"></button></td>
+        </tr>
+      </thead>
+      <tbody>
+      {% for time in times %}
+        <tr>
+            <td>{{ time.date }}</td>
+            <td>{{ time.time }}</td>
+            <td>{{ time.project.title }}</td>
+            <td>{{ time.developer.username }}</td>
+            <td>{{ time.comments }}</td>
+{#            {% for key, value in time.items %}#}
+{#                <td >{{ value }}</td>#}
+{#            {% endfor %}#}
+            <td><a href="{% url 'time_logger' '666' %}" class="btn btn-sm btn-warning">Edit</a></td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+<div>
+    <a class="btn btn-primary" href="{% url 'time_logger' '0' %}">Add</a>
+</div>
+</div>
+
+{% endblock %}
+
+</body>
+</html>
