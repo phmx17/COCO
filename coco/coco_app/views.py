@@ -18,32 +18,24 @@ def home_view(request):
     return render(request, template, context)
 
 def time_logger(request, time_id):
+    projects = Project.objects.all()  # for <select>
+    date = dt.date.today().strftime('%Y-%m-%d')
+    time = {}
+    template = 'time_logger.html'
+
     if request.method == 'POST':
-        template = 'time_logger.html'
-        user = request.POST.get('selected_user')
-        projects = ['Air BnB', 'White House.gov', 'Netflix', 'UBS', 'Renault']
-        # current_date = d.now()
-        current_date = "22.08.2023"
-        context = {'user': user, 'projects': projects, 'title': "Time Logger", 'current_date': current_date}
+        context = {'projects': projects, 'title': "Time Logger", 'date': date}
         return render(request, template, context)
 
     if request.method == 'GET':
-        template = 'time_logger.html'
-        time = {}
-        date = dt.date.today().strftime('%Y-%m-%d') # today as default
         if time_id != 0:
             time = Time.objects.filter(id=time_id)[0]
             date = time.date.strftime('%Y-%m-%d')  # required to get date input to show
-        projects = Project.objects.all()  # for <select>
     context = {'template': template, 'time': time, 'date': date, 'projects': projects}
     return render(request, template, context)
 
-
-
 def time_overview(request):
     times = Time.objects.filter(developer_id=2)
-    # times = times.values()
-    print("got them times: ", times)
     template = 'time_overview.html'
     user = request.POST.get('selected_user')
     context = {'user': user, 'times': times, 'title': "Time Overview"}

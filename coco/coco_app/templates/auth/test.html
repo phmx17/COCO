@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load bootstrap5 %}
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    {% block title %}
+        <title>{{ title }}</title>
+    {% endblock %}
+    {% block cssImports %}
+{#        <link rel="stylesheet" href="{% static 'index.css' %}">#}
+    {% endblock %}
+</head>
+<body>
+{% block body %}
+    <div class="container d-flex">
+    <div class="mx-auto w-50 ">
+        <h2>Hello {{ request.user }}</h2>
+        <h2>This page is protected by local auth and you are granted access.</h2>
+        <div class="d-flex justify-content-start">
+            <a href="{% url 'home' %}"><button type="button" class="btn btn-primary">Home</button></a>
+            <a href="{% url 'logout' %}"><button type="button" class="btn btn-secondary ms-3">Logout</button></a>
+
+        </div>
+
+    </div>
+    </div>
+
+
+{% endblock %}
+
+
+
+
+</body>
+</html>
