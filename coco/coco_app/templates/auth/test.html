@@ -23,17 +23,11 @@
             <h2>Hello {{ request.user }}</h2>
             <h2>You are granted access. This page is protected.</h2>
             <div class="d-flex justify-content-start">
-                <a href="{% url 'home' %}"><button type="button" class="btn btn-primary">Home</button></a>
-                <a href="{% url 'logout' %}"><button type="button" class="btn btn-secondary ms-3">Logout</button></a>
+                <a href="{% url 'home' %}" class="btn btn-primary">Home</a>
+                <a href="{% url 'logout' %}" class="btn btn-secondary ms-3">Logout</a>
             </div>
         </div>
     </div>
-
-
 {% endblock %}
-
-
-
-
 </body>
 </html>

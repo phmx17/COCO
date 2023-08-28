@@ -32,6 +32,7 @@ def logout_user(request):
 @unauthenticated_user
 def register(request):
     template = 'auth/register.html'
+    title = "Register"
     form = CreateUserForm()  # initialize
     if request.method == 'POST':
         form = CreateUserForm(request.POST)
