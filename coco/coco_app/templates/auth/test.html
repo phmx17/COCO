@@ -19,16 +19,14 @@
 <body>
 {% block body %}
     <div class="container d-flex">
-    <div class="mx-auto w-50 ">
-        <h2>Hello {{ request.user }}</h2>
-        <h2>This page is protected by local auth and you are granted access.</h2>
-        <div class="d-flex justify-content-start">
-            <a href="{% url 'home' %}"><button type="button" class="btn btn-primary">Home</button></a>
-            <a href="{% url 'logout' %}"><button type="button" class="btn btn-secondary ms-3">Logout</button></a>
-
+        <div class="mx-auto w-50 ">
+            <h2>Hello {{ request.user }}</h2>
+            <h2>You are granted access. This page is protected.</h2>
+            <div class="d-flex justify-content-start">
+                <a href="{% url 'home' %}"><button type="button" class="btn btn-primary">Home</button></a>
+                <a href="{% url 'logout' %}"><button type="button" class="btn btn-secondary ms-3">Logout</button></a>
+            </div>
         </div>
-
-    </div>
     </div>
 
 
