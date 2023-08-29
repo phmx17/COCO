@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from .models import Time, Project
 from django.contrib.auth.models import User
 import datetime as dt
+from django.core.paginator import Paginator
 
 times_array = [
     {'date': '23.08.23', 'time': '4:30', 'project': 'Züri Fäscht', 'comments': 'much fun'},
@@ -35,9 +36,16 @@ def time_logger(request, time_id):
     return render(request, template, context)
 
 def time_overview(request):
-    times = Time.objects.filter(developer_id=2)
+    # page = request.GET.get('page', 1)
+    page = request.GET.get('page', 1)
+    print("page: ", page)
     template = 'time_overview.html'
-    user = request.POST.get('selected_user')
-    context = {'user': user, 'times': times, 'title': "Time Overview"}
+    # user = request.POST.get('selected_user')
+    # times = Time.objects.filter(developer_id=2)
+    times = Time.objects.all().order_by('date')
+    paginator = Paginator(times, 2)
+    page_obj = paginator.get_page(page)
+
+    context = {'times': times, 'title': "Times Overview", 'page_obj': page_obj}
     return render(request, template, context)
 

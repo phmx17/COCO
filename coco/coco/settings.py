@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "coco_app",
     "bootstrap5",
     "fontawesomefree",
+    "django_extensions",
 ]
 
 MIDDLEWARE = [
