@@ -21,9 +21,6 @@
             <th scope="col">Project</th>
             <th scope="col">Developer</th>
             <th scope="col">Comments</th>
-{#            {% for key, value in times.0.items %}#}
-{#                <th scope="col">{{ key }}</th>#}
-{#            {% endfor %}#}
             <td><button class="btn invisible"></button></td>
         </tr>
       </thead>
@@ -35,9 +32,6 @@
             <td>{{ time.project.title }}</td>
             <td>{{ time.developer.username }}</td>
             <td>{{ time.comments }}</td>
-{#            {% for key, value in time.items %}#}
-{#                <td >{{ value }}</td>#}
-{#            {% endfor %}#}
             <td><a href="{% url 'time_logger' '0' %}" class="btn btn-sm btn-warning">Edit</a></td>
         </tr>
       {% endfor %}
@@ -46,27 +40,31 @@
     <div>
         <a class="btn btn-primary" href="{% url 'time_logger' '0' %}">Add</a>
     </div>
+    <div class="w-50 mx-auto d-flex justify-content-center">
 
-    <div class="pagination w-50 mx-auto d-flex justify-content-center">
-        <span class="step-links">
+        <ul class="pagination" >
             {% if page_obj.has_previous %}
-                <a href="{% url 'time_overview' %}?page=1">&laquo; first</a>
-                <a href="{% url 'time_overview' %}?page={{ page_obj.previous_page_number }}">previous</a>
+{#                <li class="page-item"><a class="page-link" href="{% url 'time_overview' %}?page=1">&laquo; first</a></li>#}
+                <li class="page-item"><a class="page-link" href="{% url 'time_overview' %}?page={{ page_obj.previous_page_number }}">Previous</a></li>
             {% endif %}
-
-            <span class="current">
-                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-            </span>
+{#            <li class="page-item"><a class="page-link" href="{% url 'time_overview' %}?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a></li>#}
+            <li class="page-item active page-link">{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</li>
+{#            <li class="page-item"><a class="page-link" href="{% url 'time_overview' %}?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a></li>#}
 
             {% if page_obj.has_next %}
-                <a href="{% url 'time_overview' %}?page={{ page_obj.next_page_number }}">next</a>
-                <a href="{% url 'time_overview' %}?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                <li class="page-item"><a class="page-link" href="{% url 'time_overview' %}?page={{ page_obj.next_page_number }}">Next</a></li>
+                <li class="page-item"><a class="page-link" href="{% url 'time_overview' %}?page={{ page_obj.paginator.num_pages }}">recent</a></li>
             {% endif %}
-        </span>
+        </ul>
+    </div>
+    <div class="card">
+        <span>total time:  {{ time_totals }}</span>
+        <span>total time current project: {{ time_totals_project }}</span>
+        <span>total time this week: {{ time_totals_week }}</span>
+        <span>total time this month: {{ time_totals_month }}</span>
     </div>
 </div>
 
 {% endblock %}
-
 </body>
 </html>

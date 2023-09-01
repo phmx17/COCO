@@ -36,16 +36,47 @@ def time_logger(request, time_id):
     return render(request, template, context)
 
 def time_overview(request):
-    # page = request.GET.get('page', 1)
-    page = request.GET.get('page', 1)
-    print("page: ", page)
+    page = request.GET.get('page')
     template = 'time_overview.html'
-    # user = request.POST.get('selected_user')
-    # times = Time.objects.filter(developer_id=2)
-    times = Time.objects.all().order_by('date')
-    paginator = Paginator(times, 2)
+
+    # calculate times for various calendar time spans
+    def get_time_totals(period_query_set):
+        time_total = 0.0
+        for time_item in period_query_set:
+            time_total += time_item.time
+        return time_total
+
+    time_rows = Time.objects.filter(developer__username='anya102').order_by('date')
+
+    # total times worked ever
+    time_totals = get_time_totals(time_rows)
+
+    # current project totals
+    current_project = time_rows.values_list('project__title').reverse()[0][0]  # get element from last project worked on and first element of the tuple
+    time_totals_project = time_rows.filter(project__title=current_project)
+    time_totals_project = get_time_totals(time_totals_project)
+
+    # current week totals
+    current_week = dt.date.today().strftime("%V") # OR: .isocalendar()[1]
+    current_week_times = time_rows.filter(date__week=current_week)  # get times by month
+    time_totals_week = get_time_totals(current_week_times)
+
+    # current month totals
+    current_month = dt.date.today().strftime('%m')
+    current_month_times = time_rows.filter(date__month=current_month)  # get times by month
+    time_totals_month = get_time_totals(current_month_times)
+
+    # pack times into paginator
+    paginator = Paginator(time_rows, 8)
     page_obj = paginator.get_page(page)
 
-    context = {'times': times, 'title': "Times Overview", 'page_obj': page_obj}
+    context = {
+        'times': time_rows,
+        'time_totals': time_totals,
+        'time_totals_project': time_totals_project,
+        'time_totals_week': time_totals_week,
+        'time_totals_month': time_totals_month,
+        'title': "Times Overview", 'page_obj': page_obj}
+
     return render(request, template, context)
 
